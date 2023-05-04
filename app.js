@@ -41,20 +41,21 @@ const filterTodos = (todos, inputValue, returnMatchedTodos) => todos
         return returnMatchedTodos ? matchedTodos : !matchedTodos
     })
 
+const manipulateClasses = (todos, classToAdd, classToRemove) => {
+    todos.forEach(todo => {
+        todo.classList.remove(classToRemove)
+        todo.classList.add(classToAdd)
+    })
+}
+
 const hideTodos = (todos, inputValue) => {
-    filterTodos(todos, inputValue, false)
-        .forEach(todo => {
-            todo.classList.remove('d-flex')
-            todo.classList.add('hidden')
-        })
+    const todosToHide = filterTodos(todos, inputValue, false)
+    manipulateClasses(todosToHide, 'hidden', 'd-flex')
 }
 
 const showTodos = (todos, inputValue) => {
-    filterTodos(todos, inputValue, true)
-        .forEach(todo => {
-            todo.classList.remove('hidden')
-            todo.classList.add('d-flex')
-        })
+    const todosToShow = filterTodos(todos, inputValue, true)
+    manipulateClasses(todosToShow, 'd-flex', 'hidden')
 }
 
 formSearchTodo.addEventListener('input', event => {
