@@ -35,21 +35,29 @@ containerTodos.addEventListener('click', event => {
     removeTodo(clickedElement)
 })
 
-formSearchTodo.addEventListener('input', event => {
-    const inputValue = event.target.value.trim().toLowerCase()
-
-    Array.from(containerTodos.children)
+const hideTodos = (todos, inputValue) => {
+    todos
         .filter(todo => !todo.textContent.toLowerCase().includes(inputValue))
         .forEach(todo => {
             todo.classList.remove('d-flex')
             todo.classList.add('hidden')
         })
+}
 
-    Array.from(containerTodos.children)
+const showTodos = (todos, inputValue) => {
+    todos
         .filter(todo => todo.textContent.trim().toLowerCase().includes(inputValue))
         .forEach(todo => {
             todo.classList.remove('hidden')
             todo.classList.add('d-flex')
         })
+}
+
+formSearchTodo.addEventListener('input', event => {
+    const inputValue = event.target.value.trim().toLowerCase()
+    const todos = Array.from(containerTodos.children)
+
+    hideTodos(todos, inputValue)
+    showTodos(todos, inputValue)
 })
 
