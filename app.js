@@ -39,6 +39,24 @@ const searchTodo = event => {
     })
 }
 
+const clockContainer = document.querySelector('.clock-container')
+
+const clockUpdate = () => {
+    const time = new Date()
+    const hour = time.getHours()
+    const minute = time.getMinutes()
+    const seconds = time.getSeconds()
+
+    const insertClock = `
+    <span>${String(hour).length === 1 ? `0${hour}` : hour}</span> :
+    <span>${String(minute).length === 1 ? `0${minute}` : minute}</span> :
+    <span>${String(seconds).length === 1 ? `0${seconds}` : seconds}</span>
+    `
+    clockContainer.innerHTML = insertClock
+}
+
+setInterval(clockUpdate, 1000)
+
 containerTodos.addEventListener('click', removeTodo)
 formAddTodo.addEventListener('submit', addTodo)
 inputSearchTodo.addEventListener('input', searchTodo)

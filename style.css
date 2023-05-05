@@ -1,3 +1,10 @@
+body {
+  background-image: url(images/oldClock-650.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
 .container {
   max-width: 400px;
 }
@@ -20,4 +27,18 @@ i[data-trash] {
 
 .hidden {
   display: none;
+}
+
+.clock-container {
+  font-size: 4em;
+  text-align: center;
+  margin: 20% auto;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.clock-container span {
+  background-image: linear-gradient(to right, rgb(194, 149, 107), rgb(102, 24, 5));
+  /* background: #d9b38c; */
+  border-radius: 15px;
 }
