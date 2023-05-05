@@ -1,8 +1,11 @@
 const formAddTodo = document.querySelector('.form-add-todo')
 const containerTodos = document.querySelector('.todos-container')
-const formSearchTodo = document.querySelector('.form-search input')
+const inputSearchTodo = document.querySelector('.form-search input')
 
-const addTodo = inputValue => {
+const addTodo = event => {
+    event.preventDefault()
+    const inputValue = event.target.add.value.trim().toLowerCase()
+
     if (inputValue.length) {
         containerTodos.innerHTML += `
         <li class="list-group-item d-flex justify-content-between align-items-center" data-todos="${inputValue}">
@@ -10,16 +13,10 @@ const addTodo = inputValue => {
         <i class="far fa-trash-alt" data-trash="${inputValue}"></i>
       </li>
         `
-        event.target.reset()
     }
+    event.target.reset()
 }
 
-formAddTodo.addEventListener('submit', event => {
-    event.preventDefault()
-
-    const inputValue = event.target.add.value.trim()
-    addTodo(inputValue)
-})
 
 const removeTodo = clickedElement => {
     const trashDataValue = clickedElement.dataset.trash
@@ -30,10 +27,6 @@ const removeTodo = clickedElement => {
     }
 }
 
-containerTodos.addEventListener('click', event => {
-    const clickedElement = event.target
-    removeTodo(clickedElement)
-})
 
 const filterTodos = (todos, inputValue, returnMatchedTodos) => todos
     .filter(todo => {
@@ -58,11 +51,20 @@ const showTodos = (todos, inputValue) => {
     manipulateClasses(todosToShow, 'd-flex', 'hidden')
 }
 
-formSearchTodo.addEventListener('input', event => {
+const searchTodo = event => {
     const inputValue = event.target.value.trim().toLowerCase()
     const todos = Array.from(containerTodos.children)
 
     hideTodos(todos, inputValue)
     showTodos(todos, inputValue)
+}
+
+
+formAddTodo.addEventListener('submit', addTodo)
+
+containerTodos.addEventListener('click', event => {
+    const clickedElement = event.target
+    removeTodo(clickedElement)
 })
 
+inputSearchTodo.addEventListener('input', searchTodo)
