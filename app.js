@@ -17,7 +17,6 @@ const addTodo = event => {
     event.target.reset()
 }
 
-
 const removeTodo = event => {
     const trashWasClicked = event.target.dataset.trash
 
@@ -27,36 +26,17 @@ const removeTodo = event => {
     }
 }
 
-
-const filterTodos = (todos, inputValue, returnMatchedTodos) => todos
-    .filter(todo => {
-        const matchedTodos = todo.textContent.toLowerCase().includes(inputValue)
-        return returnMatchedTodos ? matchedTodos : !matchedTodos
-    })
-
-const manipulateClasses = (todos, classToAdd, classToRemove) => {
-    todos.forEach(todo => {
-        todo.classList.remove(classToRemove)
-        todo.classList.add(classToAdd)
-    })
-}
-
-const hideTodos = (todos, inputValue) => {
-    const todosToHide = filterTodos(todos, inputValue, false)
-    manipulateClasses(todosToHide, 'hidden', 'd-flex')
-}
-
-const showTodos = (todos, inputValue) => {
-    const todosToShow = filterTodos(todos, inputValue, true)
-    manipulateClasses(todosToShow, 'd-flex', 'hidden')
-}
-
 const searchTodo = event => {
     const inputValue = event.target.value.trim().toLowerCase()
-    const todos = Array.from(containerTodos.children)
+    const todos = Array.from(containerTodos.children).map(todo => ({
+        todo,
+        shouldBeVisible: todo.textContent.toLowerCase().includes(inputValue)
+    }))
 
-    hideTodos(todos, inputValue)
-    showTodos(todos, inputValue)
+    todos.forEach(({ todo, shouldBeVisible }) => {
+        todo.classList.add(shouldBeVisible ? 'd-flex' : 'hidden')
+        todo.classList.remove(shouldBeVisible ? 'hidden' : 'd-flex')
+    })
 }
 
 containerTodos.addEventListener('click', removeTodo)
