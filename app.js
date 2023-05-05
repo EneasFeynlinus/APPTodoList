@@ -4,7 +4,7 @@ const inputSearchTodo = document.querySelector('.form-search input')
 
 const addTodo = event => {
     event.preventDefault()
-    const inputValue = event.target.add.value.trim().toLowerCase()
+    const inputValue = event.target.add.value.trim()
 
     if (inputValue.length) {
         containerTodos.innerHTML += `
@@ -18,11 +18,11 @@ const addTodo = event => {
 }
 
 
-const removeTodo = clickedElement => {
-    const trashDataValue = clickedElement.dataset.trash
-    const todo = document.querySelector(`[data-todos="${trashDataValue}"]`)
+const removeTodo = event => {
+    const trashWasClicked = event.target.dataset.trash
 
-    if (trashDataValue) {
+    if (trashWasClicked) {
+        const todo = document.querySelector(`[data-todos="${trashWasClicked}"]`)
         todo.remove()
     }
 }
@@ -59,12 +59,6 @@ const searchTodo = event => {
     showTodos(todos, inputValue)
 }
 
-
+containerTodos.addEventListener('click', removeTodo)
 formAddTodo.addEventListener('submit', addTodo)
-
-containerTodos.addEventListener('click', event => {
-    const clickedElement = event.target
-    removeTodo(clickedElement)
-})
-
 inputSearchTodo.addEventListener('input', searchTodo)
